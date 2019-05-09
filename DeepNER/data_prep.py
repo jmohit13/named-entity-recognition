@@ -6,7 +6,12 @@ Created on Mon May 08 07:25:06 2019
 @author: Jain, Mohit
 """
 
+import collections
+from sklearn.model_selection import train_test_split
+from keras.preprocessing import sequence
+from keras.utils import to_categorical
 
+from config import MAX_SEQUENCE_LENGTH, VALIDATION_SPLIT
 
 class Dataset(object):
     def __init__(self):
@@ -48,7 +53,10 @@ class Dataset(object):
 
 
 
-def prepare_data(tokens_sent_list,labels_sent_list,token_count,label_count):
+def get_sent_token_label(tokens_sent_list,
+    labels_sent_list,
+    token_count,
+    label_count):
     """
     Generates training data.
     
@@ -87,3 +95,38 @@ def prepare_data(tokens_sent_list,labels_sent_list,token_count,label_count):
     
     return sentences, tokens, labels
 
+
+def get_train_test(wrd2idx,
+                   label2idx,
+                   sentences,
+                   labels):
+    """
+    Generates train and test data
+    
+    INPUT
+    ----------
+        wrd2idx
+        label2idx
+        sentences
+        labels
+    
+    RETURN
+    ----------
+        train, test 
+    """
+    
+    X = [[wrd2idx[tokn[0]] for tokn in sent] for sent in sentences]
+    y = [[label2idx[label[1]] for label in sent] for sent in sentences]
+
+    X_padded = sequence.pad_sequences(sequences=X,\
+                                     maxlen=MAX_SEQUENCE_LENGTH,\
+                                     padding='post')
+
+    y_padded = sequence.pad_sequences(sequences=y,\
+                                     maxlen=MAX_SEQUENCE_LENGTH,\
+                                     padding='post')
+    y_one_hot = [to_categorical(i, num_classes=len(labels)) for i in y_padded]
+    
+    X_tr, X_te, y_tr, y_te = train_test_split(X_padded, y_one_hot, test_size=VALIDATION_SPLIT)
+    
+    return X_tr, X_te, y_tr, y_te
