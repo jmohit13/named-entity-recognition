@@ -41,7 +41,7 @@ if __name__ == '__main__':
 	model = DeepNER(EMBEDDING_DIM,ACTIVATION_FUNCTION,VALIDATION_SPLIT,NUM_EPOCHS,BATCH_SIZE,DROP_RATE_DENSE,DROP_RATE_LSTM,NUM_LSTM_UNITS)
 	
 	model_fitted, bst_model_path = model.train_model(X_train,\
-													X_test,\
+													y_train,\
 													labels,\
 													word_index=wrd2idx,\
 													MAX_SEQUENCE_LENGTH=MAX_SEQUENCE_LENGTH)
