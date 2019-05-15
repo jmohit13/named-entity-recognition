@@ -32,7 +32,7 @@ if __name__ == '__main__':
 	
 	with open(WORD_DICT_PATH+'.json', 'w') as fp:
 		json.dump(wrd2idx, fp)
-	print('Exported token dictionary')
+	print('Exported word token dictionary')
 
 	label2idx = {label:idx for idx, label in enumerate(labels)}
 	with open(LABEL_DICT_PATH+'.json', 'w') as fp:
