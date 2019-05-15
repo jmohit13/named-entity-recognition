@@ -7,8 +7,8 @@ Created on Thu May 09 09:03:45 2019
 """
 
 import numpy as np
-
-from config import MAX_FEATURES,EMBEDDING_DIM,GLOVE_EMBEDDING_PATH
+import matplotlib.pyplot as plt
+from config import MAX_FEATURES,EMBEDDING_DIM,GLOVE_EMBEDDING_PATH,PLOT_IMG_FILE
 
 def get_embedding(embedding_type,
                   wrd2idx):
@@ -50,4 +50,30 @@ def get_embedding(embedding_type,
                 embedding_matrix[idx] = embedding_vector
         
         return embedding_matrix, nb_words
+
+
+def generate_hist_plot(hist):
+    """
+        hist : history object
+    """
     
+    acc = hist.history['crf_viterbi_accuracy']
+    val_acc = hist.history['val_crf_viterbi_accuracy']
+    loss = hist.history['loss']
+    val_loss = hist.history['val_loss']
+
+    epochs = range(1, len(acc) + 1)
+
+    plt.plot(epochs, acc, 'go--', label='Training acc')
+    plt.plot(epochs, val_acc, 'b', label='Validation acc')
+    plt.title('Training and validation accuracy')
+    plt.legend()
+
+    plt.figure()
+
+    plt.plot(epochs, loss, 'go--', label='Training loss')
+    plt.plot(epochs, val_loss, 'b', label='Validation loss')
+    plt.title('Training and validation loss')
+    plt.legend()
+    
+    plt.savefig(PLOT_IMG_FILE+'.png')    
