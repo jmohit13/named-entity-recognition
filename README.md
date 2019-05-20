@@ -22,7 +22,6 @@ This task involves extracting named entities i.e. Proper Nouns like person name,
 ### Model performance
 | Model | Embedding | F1-Score |
 | ----- | --------- | -------- | 
-~~| BiLSTM + CRF| Glove  |  66.8% |~~
 | BiLSTM + CRF| Glove  |  76% |
 
 
