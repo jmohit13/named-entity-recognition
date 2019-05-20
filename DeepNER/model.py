@@ -82,9 +82,9 @@ class DeepNER:
 		if not os.path.exists(checkpoint_dir):
 			os.makedirs(checkpoint_dir)
 
-		bst_model_path = checkpoint_dir + STAMP + '.h5'
-
-		model_checkpoint = ModelCheckpoint(bst_model_path, save_best_only=True, save_weights_only=False)
+		with open(bst_model_path+".json", "w") as json_file: json_file.write(model.to_json())
+        model_checkpoint = ModelCheckpoint(bst_model_path+ '.h5', save_best_only=True, save_weights_only=False)
+        print(bst_model_path+".json",bst_model_path+ '.h5')
 
 		tensorboard = TensorBoard(log_dir=checkpoint_dir + "logs/{}".format(time()))
 
