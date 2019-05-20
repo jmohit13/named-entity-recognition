@@ -9,7 +9,7 @@ Created on Thu May 09 09:45:20 2019
 import os
 import json
 
-from config import MODELS_PATH,PLOT_IMG_DIR_ROOT,ROOT_PATH,WORD_DICT_PATH,LABEL_DICT_PATH,EMBEDDING_DIM,ACTIVATION_FUNCTION,VALIDATION_SPLIT,NUM_EPOCHS,BATCH_SIZE,DROP_RATE_DENSE,DROP_RATE_LSTM,NUM_LSTM_UNITS,MAX_SEQUENCE_LENGTH
+from config import MODELS_PATH,PLOT_IMG_DIR_ROOT,ROOT_PATH,WORD_DICT_PATH,LABEL_DICT_PATH,EMBEDDING_DIM,ACTIVATION_FUNCTION,VALIDATION_SPLIT,NUM_EPOCHS,BATCH_SIZE,DROP_RATE_DENSE,DROP_RATE_LSTM,NUM_LSTM_UNITS
 from model import DeepNER
 from data_prep import Dataset,get_train_test,get_sent_token_label
 from utils import generate_hist_plot
@@ -27,6 +27,7 @@ if __name__ == '__main__':
 
 	labels_sent_list,tokens_sent_list,token_count,label_count,character_count = Dataset()._parse_dataset(TRAIN_PATH)
 	sentences, tokens, labels = get_sent_token_label(tokens_sent_list,labels_sent_list,token_count,label_count)
+	MAX_SEQUENCE_LENGTH = sorted([len(i) for i in sentences], reverse=True)[0]
 
 	wrd2idx = {token: idx+1 for idx, token in enumerate(tokens)}
 	
